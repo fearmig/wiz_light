@@ -24,7 +24,7 @@ from homeassistant.components.light import (
     SUPPORT_EFFECT,
     ATTR_EFFECT,
 )
-from homeassistant.const import CONF_HOST, CONF_NAME
+from homeassistant.const import CONF_HOST, CONF_NAME, CONF_DEVICE
  
 _LOGGER = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {vol.Required(CONF_HOST): cv.string,
     vol.Required(CONF_NAME): cv.string,
-    vol.Required(CONF_DEVICENAME): cv.string}
+    vol.Required(CONF_DEVICE): cv.string}
 )
 
 SUPPORT_FEATURES_RGB = (SUPPORT_BRIGHTNESS | SUPPORT_COLOR | SUPPORT_COLOR_TEMP | SUPPORT_EFFECT)
@@ -50,7 +50,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     bulb = wizlight(ip)
     
     # Add devices
-    async_add_entities([WizBulb(bulb, config[CONF_NAME], config[CONF_DEVICENAME])])
+    async_add_entities([WizBulb(bulb, config[CONF_NAME], config[CONF_DEVICE])])
 
 
 class WizBulb(Light):
