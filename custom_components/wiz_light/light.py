@@ -32,7 +32,8 @@ _LOGGER = logging.getLogger(__name__)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {vol.Required(CONF_HOST): cv.string,
-    vol.Required(CONF_NAME): cv.string}
+    vol.Required(CONF_NAME): cv.string,
+    vol.Required(CONF_DEVICENAME): cv.string}
 )
 
 SUPPORT_FEATURES_RGB = (SUPPORT_BRIGHTNESS | SUPPORT_COLOR | SUPPORT_COLOR_TEMP | SUPPORT_EFFECT)
@@ -57,7 +58,7 @@ class WizBulb(Light):
         Representation of WiZ Light bulb
     """
 
-    def __init__(self, light, name):
+    def __init__(self, light, name, device):
         """
             Initialize an WiZLight.
         """
@@ -72,6 +73,20 @@ class WizBulb(Light):
         self._effect = None
         self._scenes = []
         self._bulbType = None
+        self._manufacturername = "Phillips"
+        self._devicename = device
+        
+        
+    @property
+    def device_info(self):
+        return {
+            "identifiers": {
+                (self._name)
+            },
+            "name": self._devicename,
+            "manufacturer": self._manufacturername,
+            "model": self._bulbType
+        }
 
     @property
     def brightness(self):
